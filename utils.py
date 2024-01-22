@@ -63,6 +63,7 @@ def get_local_run_dir(exp_name: str, local_dirs: List[str]) -> str:
 
 def slice_and_move_batch_for_device(batch: Dict, rank: int, world_size: int, device: str) -> Dict:
     """Slice a batch into chunks, and move each chunk to the specified device."""
+    device = "cpu"
     chunk_size = len(list(batch.values())[0]) // world_size
     start = chunk_size * rank
     end = chunk_size * (rank + 1)
