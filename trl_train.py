@@ -199,8 +199,10 @@ if __name__ == "__main__":
         per_device_train_batch_size=script_args.per_device_train_batch_size,
         max_steps=script_args.max_steps,
         remove_unused_columns=False,
-        gradient_accumulation_steps=script_args.gradient_accumulation_steps,
-        learning_rate=script_args.learning_rate,
+        # gradient_accumulation_steps=script_args.gradient_accumulation_steps,
+        # learning_rate=script_args.learning_rate,
+        gradient_accumulation_steps=2,
+        learning_rate=5e-7,
         evaluation_strategy="steps",
         logging_first_step=True,
         logging_steps=10,  # match results in blog post
@@ -210,12 +212,16 @@ if __name__ == "__main__":
         optim="rmsprop",
         warmup_steps=150,
         report_to=script_args.report_to,
-        bf16=script_args.bf16,
-        fp16=script_args.fp16,
-        gradient_checkpointing=script_args.gradient_checkpointing,
+        # bf16=script_args.bf16,
+        # fp16=script_args.fp16,
+        bf16=False,
+        fp16=False,
+        # gradient_checkpointing=script_args.gradient_checkpointing,
+        gradient_checkpointing=False,
         # TODO: uncomment that on the next transformers release
         # gradient_checkpointing_kwargs=script_args.gradient_checkpointing_kwargs,
-        save_safetensors=False
+        save_safetensors=False,
+        seed=0,
     )
 
     if script_args.use_peft:
@@ -233,7 +239,8 @@ if __name__ == "__main__":
         model,
         model_ref,
         args=training_args,
-        beta=script_args.beta,
+        # beta=script_args.beta,
+        beta=0.1,
         train_dataset=train_dataset,
         eval_dataset=eval_dataset,
         tokenizer=tokenizer,
