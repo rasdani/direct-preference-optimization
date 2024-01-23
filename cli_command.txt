@@ -1,0 +1,1 @@
+python -u train.py model=tinystories datasets=[hh] loss=dpo loss.beta=0.1 gradient_accumulation_steps=2 batch_size=2 eval_batch_size=2 sample_during_eval=false model.archive=.cache/rasdani/tiny-exp_2024-01-22_21-52-45_260270/LATEST/policy.pt
