@@ -50,7 +50,8 @@ class ScriptArguments:
     gradient_accumulation_steps: Optional[int] = field(
         default=2, metadata={"help": "the number of gradient accumulation steps"}
     )
-    output_dir: Optional[str] = field(default="output", metadata={"help": "the output directory"})
+    # output_dir: Optional[str] = field(default="output", metadata={"help": "the output directory"})
+    output_dir: Optional[str] = field(default="output_test", metadata={"help": "the output directory"})
     fp16: Optional[bool] = field(
         default=False, metadata={"help": "Whether to activate fp16 mixed precision during training"}
     )
@@ -126,7 +127,7 @@ def get_hh(split: str, sanity_check: bool = False, silent: bool = False, cache_d
     Multiple turns are allowed, but the prompt should always start with \n\nHuman: and end with \n\nAssistant:.
     """
     dataset = load_dataset("Anthropic/hh-rlhf", split=split, cache_dir=cache_dir)
-    dataset = dataset.select(range(128))
+    dataset = dataset.select(range(16))
     # if sanity_check:
     #     dataset = dataset.select(range(min(len(dataset), 1000)))
 
@@ -204,7 +205,7 @@ if __name__ == "__main__":
         logging_first_step=True,
         logging_steps=10,  # match results in blog post
         # eval_steps=500,
-        eval_steps=4,
+        eval_steps=2,
         output_dir=script_args.output_dir,
         optim="rmsprop",
         warmup_steps=150,
@@ -214,6 +215,7 @@ if __name__ == "__main__":
         gradient_checkpointing=script_args.gradient_checkpointing,
         # TODO: uncomment that on the next transformers release
         # gradient_checkpointing_kwargs=script_args.gradient_checkpointing_kwargs,
+        save_safetensors=False
     )
 
     if script_args.use_peft:
@@ -244,3 +246,5 @@ if __name__ == "__main__":
 
     # 6. train
     dpo_trainer.train()
+    # dpo_trainer.save_model()
+    torch.save(dpo_trainer.model.state_dict(), './output_trl/model.pt')

@@ -21,3 +21,26 @@ fsdp_policy_mp: null
 # the dtype for the reference model (which is used for inference only)
 # reference_dtype: float16
 reference_dtype: float32
+
+beta: 0.1
+
+model.archive: ./base_model/model.pt
+
+n_eval_examples: 2
+
+output_dir: ./output_ref_impl
+
+datasets: [hh]
+
+loss: dpo
+
+loss.beta: 0.1
+
+gradient_accumulation_steps: 2
+
+batch_size: 2
+
+eval_batch_size: 2
+
+sample_during_eval: false
+
