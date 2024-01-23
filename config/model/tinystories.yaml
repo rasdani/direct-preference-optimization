@@ -19,4 +19,5 @@ policy_dtype: float32
 fsdp_policy_mp: null
 
 # the dtype for the reference model (which is used for inference only)
-reference_dtype: float16
+# reference_dtype: float16
+reference_dtype: float32
