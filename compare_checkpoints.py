@@ -39,8 +39,10 @@ def compare_files(file1, file2):
     print(text1)
     print("="*80)
     print(text2)
+    print(f"\nGenerations match: {text1 == text2}")
 
 def generate_text(checkpoint_path):
+    print(f"Checkpoint path: {checkpoint_path}")
     tokenizer = AutoTokenizer.from_pretrained("roneneldan/TinyStories-1M")
     model = AutoModelForCausalLM.from_pretrained("roneneldan/TinyStories-1M")
     try:
@@ -57,11 +59,16 @@ def generate_text(checkpoint_path):
 
     model.eval()
     with torch.no_grad():
-        outputs = model(tokens_tensor)
+        # outputs = model(tokens_tensor)
+        # outputs = model.generate(tokens, max_length=100, temperature=0.0, num_return_sequences=5)
+        outputs = model.generate(tokens_tensor, max_length=100, temperature=0.0)
+        # print(outputs)
+
 
     # breakpoint()
-    token_ids = torch.argmax(outputs['logits'], dim=-1)
-    decoded_output = tokenizer.decode(token_ids[0].tolist(), skip_special_tokens=True)
+    # token_ids = torch.argmax(outputs['logits'], dim=-1)
+    # decoded_output = tokenizer.decode(token_ids[0].tolist(), skip_special_tokens=True)
+    decoded_output = tokenizer.decode(outputs[0].tolist(), skip_special_tokens=True)
     return decoded_output
 
 

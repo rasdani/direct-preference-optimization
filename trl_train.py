@@ -202,7 +202,8 @@ if __name__ == "__main__":
         # gradient_accumulation_steps=script_args.gradient_accumulation_steps,
         # learning_rate=script_args.learning_rate,
         gradient_accumulation_steps=2,
-        learning_rate=5e-7,
+        # learning_rate=5e-7,
+        learning_rate=5e-4,
         evaluation_strategy="steps",
         logging_first_step=True,
         logging_steps=10,  # match results in blog post
@@ -222,6 +223,7 @@ if __name__ == "__main__":
         # gradient_checkpointing_kwargs=script_args.gradient_checkpointing_kwargs,
         save_safetensors=False,
         seed=0,
+        # seed=987,
     )
 
     if script_args.use_peft:
